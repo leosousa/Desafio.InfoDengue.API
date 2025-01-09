@@ -4,4 +4,5 @@ namespace InfoDengue.Dominio.Contratos.Repositorios;
 
 public interface IRepositorioUsuario : IRepositorio<Usuario>
 {
+    Task<Usuario?> BuscarPorCpfAsync(string cpf);
 }
