@@ -7,6 +7,7 @@ var builder = WebApplication.CreateBuilder(args);
 builder.Services.AdicionarDependenciasDominio();
 
 builder.Services.AdicionarDependenciasInfraestrutura(builder.Configuration);
+builder.Services.AdicionarDependenciasServicoExterno(builder.Configuration);
 
 var assemblies = new Assembly[] {
     Assembly.Load("InfoDengue.Dominio"),

@@ -18,6 +18,7 @@
   <ItemGroup>
     <ProjectReference Include="..\InfoDengue.Aplicacao\InfoDengue.Aplicacao.csproj" />
     <ProjectReference Include="..\InfoDengue.Dominio\InfoDengue.Dominio.csproj" />
+    <ProjectReference Include="..\InfoDengue.Infraestrutura.Integracao\InfoDengue.Infraestrutura.Integracao.csproj" />
     <ProjectReference Include="..\InfoDengue.Infraestrutura\InfoDengue.Infraestrutura.csproj" />
   </ItemGroup>
 
