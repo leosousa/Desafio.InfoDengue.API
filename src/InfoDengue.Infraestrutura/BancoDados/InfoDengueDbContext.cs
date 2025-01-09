@@ -6,7 +6,7 @@ namespace InfoDengue.Infraestrutura.BancoDados;
 
 public class InfoDengueDbContext : DbContext
 {
-    public DbSet<Usuario> Usuarios { get; set; }
+    public DbSet<Solicitante> Solicitantes { get; set; }
 
     public InfoDengueDbContext()
     {

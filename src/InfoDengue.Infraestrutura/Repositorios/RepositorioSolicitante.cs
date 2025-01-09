@@ -5,13 +5,13 @@ using Microsoft.EntityFrameworkCore;
 
 namespace InfoDengue.Infraestrutura.Repositorios;
 
-public class RepositorioUsuario : Repositorio<Usuario>, IRepositorioUsuario
+public class RepositorioSolicitante : Repositorio<Solicitante>, IRepositorioSolicitante
 {
-    public RepositorioUsuario(InfoDengueDbContext database) : base(database)
+    public RepositorioSolicitante(InfoDengueDbContext database) : base(database)
     {
     }
 
-    public async Task<Usuario?> BuscarPorCpfAsync(string cpf)
+    public async Task<Solicitante?> BuscarPorCpfAsync(string cpf)
     {
         return await _dbSet.FirstOrDefaultAsync(entity => entity.Cpf == cpf);
     }

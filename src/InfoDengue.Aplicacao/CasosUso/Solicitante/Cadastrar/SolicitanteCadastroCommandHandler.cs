@@ -1,43 +1,42 @@
 ﻿using AutoMapper;
 using InfoDengue.Aplicacao.DTOs;
 using InfoDengue.Aplicacao.Servicos;
-using InfoDengue.Dominio.Contratos.Servicos.Usuario;
-using InfoDengue.Dominio.Entidades;
+using InfoDengue.Dominio.Contratos.Servicos.Solicitante;
 using InfoDengue.Dominio.Enumeracoes;
 using InfoDengue.Dominio.Recursos;
 using MediatR;
 
-namespace InfoDengue.Aplicacao.CasosUso.Usuario.Cadastrar;
+namespace InfoDengue.Aplicacao.CasosUso.Solicitante.Cadastrar;
 
-public class UsuarioCadastroCommandHandler : ServicoAplicacao,
-    IRequestHandler<UsuarioCadastroCommand, Result<UsuarioCadastroCommandResult>>
+public class SolicitanteCadastroCommandHandler : ServicoAplicacao,
+    IRequestHandler<SolicitanteCadastroCommand, Result<SolicitanteCadastroCommandResult>>
 {
     private readonly IMapper _mapper;
-    private readonly IServicoCadastroUsuario _servicoCadastroUsuario;
-    private readonly IServicoBuscaUsuarioPorCpf _servicoBuscaUsuarioPorCpf;
+    private readonly IServicoCadastroSolicitante _servicoCadastroUsuario;
+    private readonly IServicoBuscaSolicitantePorCpf _servicoBuscaUsuarioPorCpf;
 
-    public UsuarioCadastroCommandHandler(
+    public SolicitanteCadastroCommandHandler(
         IMapper mapper,
-        IServicoCadastroUsuario servicoCadastroUsuario,
-        IServicoBuscaUsuarioPorCpf servicoBuscaUsuarioPorCpf)
+        IServicoCadastroSolicitante servicoCadastroUsuario,
+        IServicoBuscaSolicitantePorCpf servicoBuscaUsuarioPorCpf)
     {
         _mapper = mapper;
         _servicoCadastroUsuario = servicoCadastroUsuario;
         _servicoBuscaUsuarioPorCpf = servicoBuscaUsuarioPorCpf;
     }
 
-    public async Task<Result<UsuarioCadastroCommandResult>> Handle(UsuarioCadastroCommand request, CancellationToken cancellationToken)
+    public async Task<Result<SolicitanteCadastroCommandResult>> Handle(SolicitanteCadastroCommand request, CancellationToken cancellationToken)
     {
-        Result<UsuarioCadastroCommandResult> result = new();
+        Result<SolicitanteCadastroCommandResult> result = new();
 
-        var usuario = _mapper.Map<Dominio.Entidades.Usuario>(request);
+        var usuario = _mapper.Map<Dominio.Entidades.Solicitante>(request);
 
         var usuarioJaCadastrado = await _servicoBuscaUsuarioPorCpf.BuscarPorCpfAsync(usuario.Cpf, cancellationToken);
 
         if (usuarioJaCadastrado is not null)
         {
             result.AddResultadoAcao(EResultadoAcaoServico.ParametrosInvalidos);
-            result.AddNotification(nameof(Dominio.Entidades.Usuario), Mensagens.UsuarioJaCadastrado);
+            result.AddNotification(nameof(Dominio.Entidades.Solicitante), Mensagens.SolicitanteJaCadastrado);
 
             return await Task.FromResult(result);
         }
@@ -52,7 +51,7 @@ public class UsuarioCadastroCommandHandler : ServicoAplicacao,
             return await Task.FromResult(result);
         }
 
-        result.Data = _mapper.Map<UsuarioCadastroCommandResult>(usuarioCadastrado);
+        result.Data = _mapper.Map<SolicitanteCadastroCommandResult>(usuarioCadastrado);
 
         return await Task.FromResult(result);
     }

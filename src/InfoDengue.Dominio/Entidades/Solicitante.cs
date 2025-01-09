@@ -3,15 +3,15 @@
 /// <summary>
 /// Usuário que acessa a API
 /// </summary>
-public class Usuario : Entidade
+public class Solicitante : Entidade
 {
     /// <summary>
-    /// Nome do usuário
+    /// Nome do solicitante
     /// </summary>
     public string Nome { get; set; }
 
     /// <summary>
-    /// Documento do usuário
+    /// Documento do solicitante
     /// </summary>
     public string Cpf { get; set; }
 

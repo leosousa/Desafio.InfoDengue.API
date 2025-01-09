@@ -4,20 +4,20 @@ using InfoDengue.Dominio.Recursos;
 
 namespace InfoDengue.Dominio.Validadores;
 
-public class UsuarioValidador : AbstractValidator<Usuario>
+public class SolicitanteValidador : AbstractValidator<Solicitante>
 {
-    public UsuarioValidador()
+    public SolicitanteValidador()
     {
         RuleFor(x => x.Nome)
             .NotEmpty()
                 .WithMessage(Mensagens.NomeECampoObrigatorio)
-            .MaximumLength(Usuario.NOME_MAXIMO_CARACTERES)
+            .MaximumLength(Solicitante.NOME_MAXIMO_CARACTERES)
                 .WithMessage(Mensagens.NomePodeTerAteXCaracteres);
 
         RuleFor(x => x.Cpf)
             .NotEmpty()
                 .WithMessage(Mensagens.CpfECampoObrigatorio)
-            .MaximumLength(Usuario.CPF_MAXIMO_CARACTERES)
+            .MaximumLength(Solicitante.CPF_MAXIMO_CARACTERES)
                 .WithMessage(Mensagens.CpfPodeTerAteXCaracteres)
             .Must(ValidadorCpf.Validar)
                 .WithMessage(Mensagens.CpfInvalido);

@@ -4,11 +4,11 @@ using InfoDengue.Dominio.Entidades;
 
 namespace InfoDengue.Infraestrutura.BancoDados.Mapeamentos;
 
-public class UsuarioConfiguracao : IEntityTypeConfiguration<Usuario>
+public class SolicitanteConfiguracao : IEntityTypeConfiguration<Solicitante>
 {
-    public void Configure(EntityTypeBuilder<Usuario> builder)
+    public void Configure(EntityTypeBuilder<Solicitante> builder)
     {
-        builder.ToTable(nameof(Usuario));
+        builder.ToTable(nameof(Solicitante));
 
         builder.HasKey(c => c.Id);
 
@@ -16,12 +16,12 @@ public class UsuarioConfiguracao : IEntityTypeConfiguration<Usuario>
            .Property(propriedade => propriedade.Nome)
            .IsRequired()
            .HasColumnType("varchar")
-           .HasMaxLength(Usuario.NOME_MAXIMO_CARACTERES);
+           .HasMaxLength(Solicitante.NOME_MAXIMO_CARACTERES);
 
         builder
            .Property(propriedade => propriedade.Cpf)
            .IsRequired()
            .HasColumnType("varchar")
-           .HasMaxLength(Usuario.CPF_MAXIMO_CARACTERES);
+           .HasMaxLength(Solicitante.CPF_MAXIMO_CARACTERES);
     }
 }

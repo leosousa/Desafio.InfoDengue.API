@@ -1,5 +1,5 @@
-﻿using InfoDengue.Aplicacao.CasosUso.Usuario.BuscarPorId;
-using InfoDengue.Aplicacao.CasosUso.Usuario.Cadastrar;
+﻿using InfoDengue.Aplicacao.CasosUso.Solicitante.Cadastrar;
+using InfoDengue.Aplicacao.CasosUso.Solicitante.BuscarPorId;
 using InfoDengue.Dominio.Enumeracoes;
 using InfoDengue.Dominio.Recursos;
 using MediatR;
@@ -7,12 +7,12 @@ using Microsoft.AspNetCore.Mvc;
 
 namespace InfoDengue.API.Controllers;
 
-[Route("api/usuarios")]
-public class UsuarioController : ApiControllerBase
+[Route("api/solicitantes")]
+public class SolicitanteController : ApiControllerBase
 {
     private readonly IMediator _mediator;
 
-    public UsuarioController(IMediator mediator)
+    public SolicitanteController(IMediator mediator)
     {
         _mediator = mediator;
     }
@@ -23,7 +23,7 @@ public class UsuarioController : ApiControllerBase
     /// <param name="usuario">Usuário a ser cadastrado</param>
     /// <returns>Id do novo usuário cadastrado</returns>
     [HttpPost]
-    public async Task<IActionResult> Cadastrar(UsuarioCadastroCommand usuario)
+    public async Task<IActionResult> Cadastrar(SolicitanteCadastroCommand usuario)
     {
         var assuntoCadastrado = await _mediator.Send(usuario);
 
@@ -53,7 +53,7 @@ public class UsuarioController : ApiControllerBase
     [HttpGet("{id}")]
     public async Task<IActionResult> BuscarPorId(int id)
     {
-        var result = await _mediator.Send(new UsuarioBuscaPorIdQuery { Id = id });
+        var result = await _mediator.Send(new SolicitanteBuscaPorIdQuery { Id = id });
 
         if (result is null)
         {
@@ -67,7 +67,7 @@ public class UsuarioController : ApiControllerBase
 
         if (result.Data is null)
         {
-            result.AddNotification("Usuario", Mensagens.UsuarioNaoEncontrado);
+            result.AddNotification(nameof(Dominio.Entidades.Solicitante), Mensagens.SolicitanteNaoEncontrado);
 
             return NotFound(result);
         }

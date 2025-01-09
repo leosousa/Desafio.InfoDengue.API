@@ -15,6 +15,6 @@ public static class InfraDependencyConfig
             ServiceLifetime.Singleton
         );
 
-        services.AddScoped<IRepositorioUsuario, RepositorioUsuario>();
+        services.AddScoped<IRepositorioSolicitante, RepositorioSolicitante>();
     }
 }
