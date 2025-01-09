@@ -8,6 +8,10 @@ public class InfoDengueDbContext : DbContext
 {
     public DbSet<Solicitante> Solicitantes { get; set; }
 
+    public DbSet<Municipio> Municipios { get; set; }
+
+    public DbSet<Relatorio> Relatorios { get; set; }
+
     public InfoDengueDbContext()
     {
     }

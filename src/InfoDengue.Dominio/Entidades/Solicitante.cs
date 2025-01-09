@@ -5,15 +5,21 @@
 /// </summary>
 public class Solicitante : Entidade
 {
+    public Solicitante(string nome, string cpf)
+    {
+        Nome = nome;
+        Cpf = cpf;
+    }
+
     /// <summary>
     /// Nome do solicitante
     /// </summary>
-    public string Nome { get; set; }
+    public string Nome { get; private set; }
 
     /// <summary>
     /// Documento do solicitante
     /// </summary>
-    public string Cpf { get; set; }
+    public string Cpf { get; private set; }
 
 
     #region Constantes
