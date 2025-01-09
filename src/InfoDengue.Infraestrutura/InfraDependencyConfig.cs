@@ -3,9 +3,8 @@ using InfoDengue.Infraestrutura.BancoDados;
 using InfoDengue.Infraestrutura.Repositorios;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
-using Microsoft.Extensions.DependencyInjection;
 
-namespace InfoDengue.Infraestrutura;
+namespace Microsoft.Extensions.DependencyInjection;
 
 public static class InfraDependencyConfig
 {
