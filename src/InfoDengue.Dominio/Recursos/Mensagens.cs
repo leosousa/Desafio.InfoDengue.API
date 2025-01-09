@@ -15,4 +15,5 @@ public class Mensagens
     public const string CodigoUsuarioNaoInformado = "Código do usuário não informado";
     public const string CpfNaoInformado = "Cpf não informado";
     public const string UsuarioNaoEncontrado = "Usuário não encontrado";
+    public const string UsuarioJaCadastrado = "Usuário já cadastrado";
 }
