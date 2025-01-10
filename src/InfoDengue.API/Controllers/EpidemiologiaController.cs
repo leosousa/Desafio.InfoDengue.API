@@ -74,6 +74,32 @@ public class EpidemiologiaController : ApiControllerBase
     }
 
     /// <summary>
+    /// Gera relatório de dados epidemiológicos a partir dos filtros informados na API do Alerta Dengue
+    /// </summary>
+    /// <param name="filtros">Filtros para geração do relatório</param>
+    /// <returns>Lista com dados epidemiológicos encontrados</returns>
+    [HttpPost("municipios/codigo/semanas")]
+    public async Task<IActionResult> GerarRelatorioPorCodigoIbgeESemanas(
+        [FromBody] RelatorioEpidemiologicoSemanasCommand filtros)
+    {
+        var result = await _mediator.Send(filtros);
+
+        if (result is null)
+        {
+            return StatusCode(StatusCodes.Status500InternalServerError);
+        }
+
+        return result.ResultadoAcao switch
+        {
+            EResultadoAcaoServico.NaoEncontrado => NotFound(result),
+            EResultadoAcaoServico.ParametrosInvalidos => BadRequest(result),
+            EResultadoAcaoServico.Erro => StatusCode(StatusCodes.Status500InternalServerError),
+            EResultadoAcaoServico.Sucesso => Ok(result),
+            _ => throw new NotImplementedException()
+        };
+    }
+
+    /// <summary>
     /// Gera relatório com totais de casos epidemiológicos a partir dos filtros informados na API do Alerta Dengue
     /// </summary>
     /// <param name="filtros">Filtros para geração do relatório</param>

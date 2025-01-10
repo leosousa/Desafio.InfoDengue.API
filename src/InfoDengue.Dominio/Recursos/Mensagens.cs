@@ -33,4 +33,6 @@ public class Mensagens
     public const string ArboviroseECampoObrigatorio = "Arbovirose é campo obrigatório";
     public const string CodigoIbgeNaoInformado = "Código IBGE não informado";
     public const string CodigoIbgeNaoEncontrado = "Código IBGE não encontrado";
+    public const string SemanaTerminoPrecisaSerPosteriorSemanaInicio = "Semana de término precisa ser posterior a semana de início";
+    public const string AnoTerminoPrecisaSerPosteriorAnoInicio = "Ano de término precisa ser posterior ao ano de início";
 }

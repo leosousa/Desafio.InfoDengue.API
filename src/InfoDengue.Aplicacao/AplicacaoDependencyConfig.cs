@@ -8,6 +8,7 @@ public static class AplicacaoDependencyConfig
     public static void AdicionarDependenciasAplicacao(this IServiceCollection services)
     {
         services.AddScoped<IServicoGeradorRelatorioEpidemiologico, ServicoGeradorRelatorioEpidemiologico>();
+        services.AddScoped<IServicoGeradorRelatorioEpidemiologicoPorSemanas, ServicoGeradorRelatorioEpidemiologicoPorSemanas>();
         services.AddScoped<IServicoGeradorRelatorioTotais, ServicoGeradorRelatorioTotais>();
     }
 }
