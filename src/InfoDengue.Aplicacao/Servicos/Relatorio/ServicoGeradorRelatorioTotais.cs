@@ -1,26 +1,22 @@
 ﻿using AutoMapper;
-using InfoDengue.Aplicacao.CasosUso.Solicitante.BuscarPorCpf;
 using InfoDengue.Aplicacao.Contratos;
 using InfoDengue.Aplicacao.DTOs;
-using InfoDengue.Dominio.Contratos.Servicos.Municipio;
 using InfoDengue.Dominio.Recursos;
-using MediatR;
 
-namespace InfoDengue.Aplicacao.CasosUso.Epidemiologia.ListarTotaisCasosPorArboviroseMunicipio;
+namespace InfoDengue.Aplicacao.Servicos.Relatorio;
 
-public class ListarTotaisCasosArbovirsoseMunicipioQueryHandler :
-    IRequestHandler<RelatorioEpidemiologicoTotalCommand, Result<RelatorioEpidemiologicoTotalCommandResult>>
+public class ServicoGeradorRelatorioTotais : IServicoGeradorRelatorioTotais
 {
     private readonly IMapper _mapper;
     private readonly IServicoGeradorRelatorioEpidemiologico _servicoGeradorRelatorioEpidemiologico;
 
-    public ListarTotaisCasosArbovirsoseMunicipioQueryHandler(IMapper mapper, IServicoGeradorRelatorioEpidemiologico servicoGeradorRelatorioEpidemiologico)
+    public ServicoGeradorRelatorioTotais(IMapper mapper, IServicoGeradorRelatorioEpidemiologico servicoGeradorRelatorioEpidemiologico)
     {
         _mapper = mapper;
         _servicoGeradorRelatorioEpidemiologico = servicoGeradorRelatorioEpidemiologico;
     }
 
-    public async Task<Result<RelatorioEpidemiologicoTotalCommandResult>> Handle(RelatorioEpidemiologicoTotalCommand command, CancellationToken cancellationToken)
+    public async Task<Result<RelatorioEpidemiologicoTotalCommandResult>> GerarRelatorioEpidemiologicoTotais(RelatorioEpidemiologicoTotalCommand command, CancellationToken cancellationToken)
     {
         var parametros = _mapper.Map<RelatorioEpidemiologicoCommand>(command);
 
@@ -44,6 +40,8 @@ public class ListarTotaisCasosArbovirsoseMunicipioQueryHandler :
             DataTerminoPesquisada = command.DataTermino,
             TotalCasosAcumuladoPeriodo = resultRelatorioGerado.Data!.FirstOrDefault()!.NumeroCasosAcumuladoAno
         };
+
+        result.AddResultadoAcao(Dominio.Enumeracoes.EResultadoAcaoServico.Sucesso);
 
         return await Task.FromResult(result);
     }

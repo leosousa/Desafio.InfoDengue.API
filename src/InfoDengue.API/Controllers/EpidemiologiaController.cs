@@ -1,5 +1,6 @@
 ﻿using InfoDengue.Aplicacao.CasosUso.Epidemiologia.GerarRelatorioEpidemiologicoPorCodigoIbge;
 using InfoDengue.Aplicacao.CasosUso.Epidemiologia.GerarRelatorioEpidemiologicoPorMunicipio.BuscarRelatorioPorMunicipio;
+using InfoDengue.Aplicacao.CasosUso.Epidemiologia.ListarTotaisCasosArbovirosePorNomeMunicipio;
 using InfoDengue.Aplicacao.DTOs;
 using InfoDengue.Dominio.Enumeracoes;
 using InfoDengue.Infraestrutura.Integracao.Contratos;
@@ -78,9 +79,35 @@ public class EpidemiologiaController : ApiControllerBase
     /// </summary>
     /// <param name="filtros">Filtros para geração do relatório</param>
     /// <returns>Lista com dados epidemiológicos encontrados</returns>
-    [HttpPost("municipios/totais")]
-    public async Task<IActionResult> GerarRelatorioTotaisCasosPorMunicipio(
+    [HttpPost("municipios/codigo/totais")]
+    public async Task<IActionResult> GerarRelatorioTotaisCasosPorCodigoIbge(
         [FromBody] RelatorioEpidemiologicoTotalCommand filtros)
+    {
+        var result = await _mediator.Send(filtros);
+
+        if (result is null)
+        {
+            return StatusCode(StatusCodes.Status500InternalServerError);
+        }
+
+        return result.ResultadoAcao switch
+        {
+            EResultadoAcaoServico.NaoEncontrado => NotFound(result),
+            EResultadoAcaoServico.ParametrosInvalidos => BadRequest(result),
+            EResultadoAcaoServico.Erro => StatusCode(StatusCodes.Status500InternalServerError),
+            EResultadoAcaoServico.Sucesso => Ok(result),
+            _ => throw new NotImplementedException()
+        };
+    }
+
+    /// <summary>
+    /// Gera relatório com totais de casos epidemiológicos a partir dos filtros informados na API do Alerta Dengue
+    /// </summary>
+    /// <param name="filtros">Filtros para geração do relatório</param>
+    /// <returns>Lista com dados epidemiológicos encontrados</returns>
+    [HttpPost("municipios/nome/totais")]
+    public async Task<IActionResult> GerarRelatorioTotaisCasosPorNomeMunicipio(
+        [FromBody] ListarTotaisCasosArbovirosePorNomeMunicipioQuery filtros)
     {
         var result = await _mediator.Send(filtros);
 
