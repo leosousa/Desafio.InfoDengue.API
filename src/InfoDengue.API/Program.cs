@@ -4,9 +4,12 @@ using System.Reflection;
 
 var builder = WebApplication.CreateBuilder(args);
 
+builder.Services.AdicionarDependenciasAplicacao();
+
 builder.Services.AdicionarDependenciasDominio();
 
 builder.Services.AdicionarDependenciasInfraestrutura(builder.Configuration);
+
 builder.Services.AdicionarDependenciasServicoExterno(builder.Configuration);
 
 var assemblies = new Assembly[] {

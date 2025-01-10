@@ -1,5 +1,6 @@
 ﻿using InfoDengue.Aplicacao.CasosUso.Epidemiologia.GerarRelatorioEpidemiologicoPorCodigoIbge;
 using InfoDengue.Aplicacao.CasosUso.Epidemiologia.GerarRelatorioEpidemiologicoPorMunicipio.BuscarRelatorioPorMunicipio;
+using InfoDengue.Aplicacao.DTOs;
 using InfoDengue.Dominio.Enumeracoes;
 using InfoDengue.Infraestrutura.Integracao.Contratos;
 using MediatR;
@@ -53,7 +54,7 @@ public class EpidemiologiaController : ApiControllerBase
     /// <returns>Lista com dados epidemiológicos encontrados</returns>
     [HttpPost("municipios/codigo")]
     public async Task<IActionResult> GerarRelatorioPorCodigoIbge(
-        [FromBody] RelatorioEpidemiologicoPorCodigoIbgeCommand filtros)
+        [FromBody] RelatorioEpidemiologicoCommand filtros)
     {
         var result = await _mediator.Send(filtros);
 

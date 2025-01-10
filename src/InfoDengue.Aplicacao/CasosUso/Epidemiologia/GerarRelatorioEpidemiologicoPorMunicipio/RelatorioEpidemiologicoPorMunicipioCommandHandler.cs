@@ -1,83 +1,33 @@
 ﻿using AutoMapper;
 using InfoDengue.Aplicacao.CasosUso.Epidemiologia.GerarRelatorioEpidemiologicoPorMunicipio.BuscarRelatorioPorMunicipio;
+using InfoDengue.Aplicacao.Contratos;
 using InfoDengue.Aplicacao.DTOs;
 using InfoDengue.Dominio.Contratos.Servicos.Municipio;
-using InfoDengue.Dominio.Contratos.Servicos.Relatorio;
-using InfoDengue.Dominio.Contratos.Servicos.Solicitante;
-using InfoDengue.Dominio.Entidades;
 using InfoDengue.Dominio.Recursos;
-using InfoDengue.Infraestrutura.Integracao.Contratos;
-using InfoDengue.Infraestrutura.Integracao.Helpers;
 using MediatR;
 
 namespace InfoDengue.Aplicacao.CasosUso.Epidemiologia.GerarRelatorioEpidemiologicoPorMunicipio;
 
 public class RelatorioEpidemiologicoPorMunicipioCommandHandler :
-    IRequestHandler<RelatorioEpidemiologicoPorMunicipioCommand, Result<RelatorioEpidemiologicoPorMunicipioCommandResult>>
+    IRequestHandler<RelatorioEpidemiologicoPorMunicipioCommand, Result<RelatorioEpidemiologicoCommandResult>>
 {
     private readonly IMapper _mapper;
-    private readonly IServicoBuscaSolicitantePorCpf _servicoBuscaSolicitantePorCpf;
-    private readonly IServicoCadastroSolicitante _servicoCadastroSolicitante;
     private readonly IServicoBuscaMunicipioPorNome _servicoBuscaMunicipioPorNome;
-    private readonly IServicoCalculadoraSemana _servicoCalculadoraSemana;
-    private readonly IServicoRelatorioAlerta _servicoRelatorioAlerta;
-    private readonly IServicoCadastroRelatorio _servicoCadastroRelatorio;
+    private readonly IServicoGeradorRelatorioEpidemiologico _servicoGeradorRelatorioEpidemiologico;
 
     public RelatorioEpidemiologicoPorMunicipioCommandHandler(
         IMapper mapper,
-        IServicoBuscaSolicitantePorCpf servicoBuscaSolicitantePorCpf,
-        IServicoCadastroSolicitante servicoCadastroSolicitante,
         IServicoBuscaMunicipioPorNome servicoBuscaMunicipioPorNome,
-        IServicoCalculadoraSemana servicoCalculadoraSemana,
-        IServicoRelatorioAlerta servicoRelatorioAlerta,
-        IServicoCadastroRelatorio servicoCadastroRelatorio)
+        IServicoGeradorRelatorioEpidemiologico servicoGeradorRelatorioEpidemiologico)
     {
         _mapper = mapper;
-        _servicoBuscaSolicitantePorCpf = servicoBuscaSolicitantePorCpf;
-        _servicoCadastroSolicitante = servicoCadastroSolicitante;
         _servicoBuscaMunicipioPorNome = servicoBuscaMunicipioPorNome;
-        _servicoCalculadoraSemana = servicoCalculadoraSemana;
-        _servicoRelatorioAlerta = servicoRelatorioAlerta;
-        _servicoCadastroRelatorio = servicoCadastroRelatorio;
+        _servicoGeradorRelatorioEpidemiologico = servicoGeradorRelatorioEpidemiologico;
     }
 
-    public async Task<Result<RelatorioEpidemiologicoPorMunicipioCommandResult>> Handle(RelatorioEpidemiologicoPorMunicipioCommand command, CancellationToken cancellationToken)
+    public async Task<Result<RelatorioEpidemiologicoCommandResult>> Handle(RelatorioEpidemiologicoPorMunicipioCommand command, CancellationToken cancellationToken)
     {
-        Result<RelatorioEpidemiologicoPorMunicipioCommandResult> result = new();
-
-        if (command is null)
-        {
-            result.AddResultadoAcao(Dominio.Enumeracoes.EResultadoAcaoServico.ParametrosInvalidos);
-
-            result.AddNotification(nameof(RelatorioEpidemiologicoPorMunicipioCommand), Mensagens.ParametrosNaoInformados);
-
-            return await Task.FromResult(result);
-        }
-
-        if (command.Solicitante is null)
-        {
-            result.AddResultadoAcao(Dominio.Enumeracoes.EResultadoAcaoServico.ParametrosInvalidos);
-
-            result.AddNotification(nameof(RelatorioEpidemiologicoPorMunicipioCommand.Solicitante), Mensagens.SolicitanteNaoInformado);
-
-            return await Task.FromResult(result);
-        }
-
-        var solicitanteValidado = await ValidarSolicitante(command.Solicitante, result, cancellationToken);
-
-        if (!result.IsValid)
-        {
-            return await Task.FromResult(result);
-        }
-
-        if (solicitanteValidado is null)
-        {
-            result.AddResultadoAcao(Dominio.Enumeracoes.EResultadoAcaoServico.Erro);
-
-            result.AddNotification(nameof(RelatorioEpidemiologicoPorMunicipioCommand.Solicitante), Mensagens.OcorreuUmErroAoCadastrarSolicitante);
-
-            return await Task.FromResult(result);
-        }
+        Result<RelatorioEpidemiologicoCommandResult> result = new();
 
         if (string.IsNullOrWhiteSpace(command.NomeMunicipio))
         {
@@ -99,68 +49,21 @@ public class RelatorioEpidemiologicoPorMunicipioCommandHandler :
             return await Task.FromResult(result);
         }
 
-        if (command.DataTermino < command.DataInicio)
+        var parametros = new RelatorioEpidemiologicoCommand
         {
-            result.AddResultadoAcao(Dominio.Enumeracoes.EResultadoAcaoServico.ParametrosInvalidos);
+            Arbovirose = command.Arbovirose,
+            CodigoIbge = municipioEncontrado.CodigoIbge,
+            DataInicio = command.DataInicio,
+            DataTermino = command.DataTermino,
+            Solicitante = new RelatorioEpidemiologicoSolicitanteCommand
+            {
+                Nome = command.Solicitante.Nome,
+                Cpf = command.Solicitante.Cpf
+            }
+        };
 
-            result.AddNotification(nameof(RelatorioEpidemiologicoPorMunicipioCommand.DataTermino), Mensagens.DataTerminoPrecisaSerPosteriorDataInicio);
-
-            return await Task.FromResult(result);
-        }
-
-        var semanaInicio = await _servicoCalculadoraSemana.CalcularSemana(command.DataInicio);
-
-        var semanaTermino = await _servicoCalculadoraSemana.CalcularSemana(command.DataTermino);
-
-        var relatorio = await _servicoRelatorioAlerta.ObterRelatorio(municipioEncontrado.CodigoIbge, command.Arbovirose, semanaInicio, semanaTermino, command.DataInicio.Year, command.DataTermino.Year);
-
-        if (relatorio is null)
-        {
-            result.AddResultadoAcao(Dominio.Enumeracoes.EResultadoAcaoServico.NaoEncontrado);
-
-            result.AddNotification(nameof(Relatorio), Mensagens.NenhumDadoEncontrado);
-
-            return await Task.FromResult(result);
-        }
-
-        result.Data = _mapper.Map<RelatorioEpidemiologicoPorMunicipioCommandResult>(relatorio);
-
-        var relatorioRegistrado = new Relatorio(dataSolicitacao: DateTime.Now, command.Arbovirose, semanaInicio, semanaTermino, municipioEncontrado.Id, solicitanteValidado.Id);
-
-        var relatorioCadastrado = await _servicoCadastroRelatorio.CadastrarAsync(relatorioRegistrado, cancellationToken);
-
-        if (relatorioCadastrado is null)
-        {
-            result.AddResultadoAcao(Dominio.Enumeracoes.EResultadoAcaoServico.Erro);
-
-            result.AddNotification(nameof(Relatorio), Mensagens.OcorreuUmErroAoCadastrarRelatorio);
-
-            return await Task.FromResult(result);
-        }
-
-        result.AddResultadoAcao(Dominio.Enumeracoes.EResultadoAcaoServico.Sucesso);
+        result = await _servicoGeradorRelatorioEpidemiologico.GerarRelatorioEpidemiologico(parametros, cancellationToken);
 
         return await Task.FromResult(result);
-    }
-
-    private async Task<Dominio.Entidades.Solicitante?> ValidarSolicitante(RelatorioEpidemiologicoSolicitante solicitante, Result<RelatorioEpidemiologicoPorMunicipioCommandResult> result, CancellationToken cancellationToken)
-    {
-        var solicitanteJaCadastrado = await _servicoBuscaSolicitantePorCpf.BuscarPorCpfAsync(solicitante.Cpf, cancellationToken);
-
-        if (solicitanteJaCadastrado is null)
-        {
-            solicitanteJaCadastrado = await _servicoCadastroSolicitante.CadastrarAsync(
-                new Dominio.Entidades.Solicitante(solicitante.Nome, solicitante.Cpf),
-                cancellationToken);
-
-            if (!_servicoCadastroSolicitante.IsValid)
-            {
-                result.AddResultadoAcao(_servicoCadastroSolicitante.ResultadoAcao);
-
-                result.AddNotifications(_servicoCadastroSolicitante.Notifications);
-            }
-        }
-
-        return solicitanteJaCadastrado;
     }
 }

@@ -1,11 +1,11 @@
-﻿namespace InfoDengue.Aplicacao.CasosUso.Epidemiologia.GerarRelatorioEpidemiologicoPorCodigoIbge;
+﻿namespace InfoDengue.Aplicacao.DTOs;
 
-public class RelatorioEpidemiologicoPorCodigoIbgeCommandResult : List<RelatorioEpidemiologicoPorCodigoIbgeItemCommandResult>
+public class RelatorioEpidemiologicoCommandResult : List<RelatorioEpidemiologicoItemResult>
 {
 
 }
 
-public class RelatorioEpidemiologicoPorCodigoIbgeItemCommandResult
+public class RelatorioEpidemiologicoItemResult
 {
     /// <summary>
     /// Primeiro dia da semana epidemiológica (Domingo)

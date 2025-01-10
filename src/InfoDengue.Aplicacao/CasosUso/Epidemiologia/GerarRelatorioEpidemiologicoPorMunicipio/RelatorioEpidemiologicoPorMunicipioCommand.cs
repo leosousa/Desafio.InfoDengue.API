@@ -3,9 +3,9 @@ using MediatR;
 
 namespace InfoDengue.Aplicacao.CasosUso.Epidemiologia.GerarRelatorioEpidemiologicoPorMunicipio.BuscarRelatorioPorMunicipio;
 
-public class RelatorioEpidemiologicoPorMunicipioCommand : IRequest<Result<RelatorioEpidemiologicoPorMunicipioCommandResult>>
+public class RelatorioEpidemiologicoPorMunicipioCommand : IRequest<Result<RelatorioEpidemiologicoCommandResult>>
 {
-    public RelatorioEpidemiologicoSolicitante Solicitante { get; set; }
+    public RelatorioEpidemiologicoCommandResultSolicitante Solicitante { get; set; }
 
     public string NomeMunicipio { get; set; }
 
@@ -16,7 +16,7 @@ public class RelatorioEpidemiologicoPorMunicipioCommand : IRequest<Result<Relato
     public DateTime DataTermino { get; set; }
 }
 
-public class RelatorioEpidemiologicoSolicitante
+public class RelatorioEpidemiologicoCommandResultSolicitante
 {
     public string Nome { get; set; }
 
