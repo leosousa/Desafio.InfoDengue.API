@@ -47,10 +47,10 @@ Para rodar localmente, você vai precisar ter instalado o Sql Server Express ins
 
 >
 > :exclamation:
->
 > Observação: Você pode restaurar o banco de dados a partir do dump no caminho do repositório 
 > ([link](https://github.com/leosousa/Desafio.InfoDengue.API/blob/feature/v1/docs/bancoDados/InfoDengueDb.bak))
 > ou pode deixar a aplicação rodar pela primeira vez que ela criará, caso o banco não esteja criado.
+>
 >
 
 2. Ajuste a string de conexão no arquivo *appSetings.json* e *appSettings.Development.json* com o seu banco criado. 
