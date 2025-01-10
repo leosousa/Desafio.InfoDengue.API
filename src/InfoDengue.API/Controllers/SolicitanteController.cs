@@ -4,6 +4,7 @@ using InfoDengue.Dominio.Enumeracoes;
 using InfoDengue.Dominio.Recursos;
 using MediatR;
 using Microsoft.AspNetCore.Mvc;
+using InfoDengue.Aplicacao.CasosUso.Solicitante.Listar;
 
 namespace InfoDengue.API.Controllers;
 
@@ -69,6 +70,30 @@ public class SolicitanteController : ApiControllerBase
         {
             result.AddNotification(nameof(Dominio.Entidades.Solicitante), Mensagens.SolicitanteNaoEncontrado);
 
+            return NotFound(result);
+        }
+
+        return Ok(result);
+    }
+
+    /// <summary>
+    /// Lista de solicitantes cadastrados
+    /// </summary>
+    /// <returns>Lista de solicitantes encontrados</returns>
+    [HttpGet]
+    public async Task<IActionResult> Listar()
+    {
+        var solicitarRelatorioSolicitantes = new SolicitanteListagemQuery();
+
+        var result = await _mediator.Send(solicitarRelatorioSolicitantes);
+
+        if (result is null)
+        {
+            return StatusCode(StatusCodes.Status500InternalServerError);
+        }
+
+        if (!result.Data!.Any())
+        {
             return NotFound(result);
         }
 

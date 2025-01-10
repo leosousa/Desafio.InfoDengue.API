@@ -4,6 +4,7 @@ using InfoDengue.Aplicacao.CasosUso.Epidemiologia.GerarRelatorioEpidemiologicoPo
 using InfoDengue.Aplicacao.CasosUso.Solicitante.BuscarPorCpf;
 using InfoDengue.Aplicacao.CasosUso.Solicitante.BuscarPorId;
 using InfoDengue.Aplicacao.CasosUso.Solicitante.Cadastrar;
+using InfoDengue.Aplicacao.CasosUso.Solicitante.Listar;
 using InfoDengue.Aplicacao.DTOs;
 using InfoDengue.Dominio.Entidades;
 using InfoDengue.Infraestrutura.Integracao.DTOs;
@@ -87,5 +88,7 @@ public class AutoMapperProfile : Profile
             .ForMember(dest => dest.NumeroCasosAcumuladoAno, opt => opt.MapFrom(src => src.notif_accum_year));
 
         CreateMap<RelatorioEpidemiologicoTotalCommand, RelatorioEpidemiologicoCommand>();
+
+        CreateMap<Solicitante, SolicitanteListagemItemQueryResult>();
     }
 }

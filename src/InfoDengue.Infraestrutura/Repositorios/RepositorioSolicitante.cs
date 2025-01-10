@@ -15,4 +15,9 @@ public class RepositorioSolicitante : Repositorio<Solicitante>, IRepositorioSoli
     {
         return await _dbSet.FirstOrDefaultAsync(entity => entity.Cpf == cpf);
     }
+
+    public async Task<IEnumerable<Solicitante>> ListarAsync()
+    {
+        return await _dbSet.ToListAsync();
+    }
 }
