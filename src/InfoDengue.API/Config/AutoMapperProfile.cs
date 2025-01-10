@@ -1,6 +1,7 @@
 ﻿using AutoMapper;
 using InfoDengue.Aplicacao.CasosUso.Epidemiologia.GerarRelatorioEpidemiologicoPorCodigoIbge;
 using InfoDengue.Aplicacao.CasosUso.Epidemiologia.GerarRelatorioEpidemiologicoPorMunicipio.BuscarRelatorioPorMunicipio;
+using InfoDengue.Aplicacao.CasosUso.Relatorios.Listar;
 using InfoDengue.Aplicacao.CasosUso.Solicitante.BuscarPorCpf;
 using InfoDengue.Aplicacao.CasosUso.Solicitante.BuscarPorId;
 using InfoDengue.Aplicacao.CasosUso.Solicitante.Cadastrar;
@@ -90,5 +91,15 @@ public class AutoMapperProfile : Profile
         CreateMap<RelatorioEpidemiologicoTotalCommand, RelatorioEpidemiologicoCommand>();
 
         CreateMap<Solicitante, SolicitanteListagemItemQueryResult>();
+
+        CreateMap<Relatorio, RelatorioListagemItemQueryResult>()
+            .ForMember(dest => dest.Id, opt => opt.MapFrom(src => src.Id))
+            .ForMember(dest => dest.Arbovirose, opt => opt.MapFrom(src => src.Arbovirose))
+            .ForMember(dest => dest.DataSolicitacao, opt => opt.MapFrom(src => src.DataSolicitacao))
+            .ForMember(dest => dest.SemanaInicio, opt => opt.MapFrom(src => src.SemanaInicio))
+            .ForMember(dest => dest.SemanaTermino, opt => opt.MapFrom(src => src.SemanaTermino))
+            .ForMember(dest => dest.CodigoIbge, opt => opt.MapFrom(src => src.Municipio.CodigoIbge))
+            .ForMember(dest => dest.Municipio, opt => opt.MapFrom(src => src.Municipio.Nome))
+            .ForMember(dest => dest.Solicitante, opt => opt.MapFrom(src => src.Solicitante.Nome));
     }
 }

@@ -27,11 +27,11 @@ public class Relatorio : Entidade
 
     public int IdMunicipio { get; private set; }
 
-    public Municipio Municipio { get; private set; }
+    public virtual Municipio Municipio { get; private set; }
 
     public int IdSolicitante { get; private set; }
 
-    public Solicitante Solicitante { get; private set; }
+    public virtual Solicitante Solicitante { get; private set; }
 
     #region Constantes
     public const int ARBOVIROSE_MAXIMO_CARACTERES = 255;

@@ -21,6 +21,7 @@ public static class DominioDependencyConfig
         services.AddScoped<IServicoBuscaMunicipioPorCodigo, ServicoBuscaMunicipioPorCodigo>();
         services.AddScoped<IServicoCadastroRelatorio, ServicoCadastroRelatorio>();
         services.AddScoped<IServicoListagemSolicitante, ServicoListagemSolicitante>();
+        services.AddScoped<IServicoListagemRelatorio, ServicoListagemRelatorio>();
         
         services.AddValidatorsFromAssemblyContaining<SolicitanteValidador>();
         services.AddValidatorsFromAssemblyContaining<RelatorioValidador>();

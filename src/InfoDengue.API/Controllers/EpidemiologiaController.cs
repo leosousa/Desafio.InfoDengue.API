@@ -1,5 +1,4 @@
-﻿using InfoDengue.Aplicacao.CasosUso.Epidemiologia.GerarRelatorioEpidemiologicoPorCodigoIbge;
-using InfoDengue.Aplicacao.CasosUso.Epidemiologia.GerarRelatorioEpidemiologicoPorMunicipio.BuscarRelatorioPorMunicipio;
+﻿using InfoDengue.Aplicacao.CasosUso.Epidemiologia.GerarRelatorioEpidemiologicoPorMunicipio.BuscarRelatorioPorMunicipio;
 using InfoDengue.Aplicacao.CasosUso.Epidemiologia.ListarTotaisCasosArbovirosePorNomeMunicipio;
 using InfoDengue.Aplicacao.DTOs;
 using InfoDengue.Dominio.Enumeracoes;
