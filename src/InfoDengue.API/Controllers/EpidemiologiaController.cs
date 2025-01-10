@@ -73,45 +73,29 @@ public class EpidemiologiaController : ApiControllerBase
         };
     }
 
-    ///// <summary>
-    ///// Busca dados epidemiológicos a partir dos filtros informados
-    ///// </summary>
-    ///// <param name="descricao">Descrição do assuntos</param>
-    ///// <returns>Lista com dados epidemiológicos encontrados</returns>
-    //[HttpGet]
-    //public async Task<IActionResult> Listar(
-    //    [FromQuery] string municipio = "",
-    //    [FromQuery] int codigoIbge = 3304557,
-    //    [FromQuery] string arbovirose = "dengue",
-    //    [FromQuery] int semanaInicio = 1,
-    //    [FromQuery] int semanaFim = 50,
-    //    [FromQuery] int anoInicio = 2017,
-    //    [FromQuery] int anoFim = 2017)
-    //{
-    //    //var filtros = new AssuntoListaPaginadaQuery
-    //    //{
-    //    //    Descricao = descricao,
-    //    //};
+    /// <summary>
+    /// Gera relatório com totais de casos epidemiológicos a partir dos filtros informados na API do Alerta Dengue
+    /// </summary>
+    /// <param name="filtros">Filtros para geração do relatório</param>
+    /// <returns>Lista com dados epidemiológicos encontrados</returns>
+    [HttpPost("municipios/totais")]
+    public async Task<IActionResult> GerarRelatorioTotaisCasosPorMunicipio(
+        [FromBody] RelatorioEpidemiologicoTotalCommand filtros)
+    {
+        var result = await _mediator.Send(filtros);
 
-    //    //var result = await _mediator.Send(filtros);
+        if (result is null)
+        {
+            return StatusCode(StatusCodes.Status500InternalServerError);
+        }
 
-    //    if (anoFim == 0)
-    //    {
-    //        anoFim = DateTime.Today.Year;
-    //    }
-
-    //    var result = await _servicoRelatorioAlerta.ObterRelatorio(municipio, codigoIbge, arbovirose, semanaInicio, semanaFim, anoInicio, anoFim);
-
-    //    if (result is null)
-    //    {
-    //        return StatusCode(StatusCodes.Status500InternalServerError);
-    //    }
-
-    //    if (!result.Any())
-    //    {
-    //        return NotFound(result);
-    //    }
-
-    //    return Ok(result);
-    //}
+        return result.ResultadoAcao switch
+        {
+            EResultadoAcaoServico.NaoEncontrado => NotFound(result),
+            EResultadoAcaoServico.ParametrosInvalidos => BadRequest(result),
+            EResultadoAcaoServico.Erro => StatusCode(StatusCodes.Status500InternalServerError),
+            EResultadoAcaoServico.Sucesso => Ok(result),
+            _ => throw new NotImplementedException()
+        };
+    }
 }

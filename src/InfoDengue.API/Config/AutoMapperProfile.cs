@@ -85,5 +85,7 @@ public class AutoMapperProfile : Profile
             .ForMember(dest => dest.casprov_est_max, opt => opt.MapFrom(src => src.casprov_est_max))
             .ForMember(dest => dest.casconf, opt => opt.MapFrom(src => src.casconf))
             .ForMember(dest => dest.NumeroCasosAcumuladoAno, opt => opt.MapFrom(src => src.notif_accum_year));
+
+        CreateMap<RelatorioEpidemiologicoTotalCommand, RelatorioEpidemiologicoCommand>();
     }
 }

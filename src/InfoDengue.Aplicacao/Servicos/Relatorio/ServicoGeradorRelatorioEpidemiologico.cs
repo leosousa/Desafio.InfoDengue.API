@@ -143,7 +143,7 @@ public class ServicoGeradorRelatorioEpidemiologico : IServicoGeradorRelatorioEpi
         return await Task.FromResult(result);
     }
 
-    private async Task<Dominio.Entidades.Solicitante?> ValidarSolicitante(RelatorioEpidemiologicoSolicitanteCommand solicitante, Result<RelatorioEpidemiologicoCommandResult> result, CancellationToken cancellationToken)
+    private async Task<Dominio.Entidades.Solicitante?> ValidarSolicitante(SolicitanteDto solicitante, Result<RelatorioEpidemiologicoCommandResult> result, CancellationToken cancellationToken)
     {
         var solicitanteJaCadastrado = await _servicoBuscaSolicitantePorCpf.BuscarPorCpfAsync(solicitante.Cpf, cancellationToken);
 

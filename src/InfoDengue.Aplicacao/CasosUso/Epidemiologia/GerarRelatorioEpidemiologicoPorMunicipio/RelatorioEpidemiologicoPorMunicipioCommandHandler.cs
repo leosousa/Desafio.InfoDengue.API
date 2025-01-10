@@ -55,7 +55,7 @@ public class RelatorioEpidemiologicoPorMunicipioCommandHandler :
             CodigoIbge = municipioEncontrado.CodigoIbge,
             DataInicio = command.DataInicio,
             DataTermino = command.DataTermino,
-            Solicitante = new RelatorioEpidemiologicoSolicitanteCommand
+            Solicitante = new SolicitanteDto
             {
                 Nome = command.Solicitante.Nome,
                 Cpf = command.Solicitante.Cpf

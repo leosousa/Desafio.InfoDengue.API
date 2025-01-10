@@ -2,7 +2,7 @@
 
 namespace InfoDengue.Aplicacao.DTOs;
 
-public class RelatorioEpidemiologicoCommand : IRequest<Result<RelatorioEpidemiologicoCommandResult>>
+public class RelatorioEpidemiologicoTotalCommand : IRequest<Result<RelatorioEpidemiologicoTotalCommandResult>>
 {
     public SolicitanteDto Solicitante { get; set; }
 
