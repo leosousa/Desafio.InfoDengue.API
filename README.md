@@ -48,7 +48,7 @@ Para rodar localmente, você vai precisar ter instalado o Sql Server Express ins
 >
 > :exclamation:
 > Observação: Você pode restaurar o banco de dados a partir do dump no caminho do repositório 
-> ([link](https://github.com/leosousa/Desafio.InfoDengue.API/blob/feature/v1/docs/bancoDados/InfoDengueDb.bak))
+> ([link](https://github.com/leosousa/Desafio.InfoDengue.API/blob/master/docs/bancoDados/InfoDengueDb.bak))
 > ou pode deixar a aplicação rodar pela primeira vez que ela criará, caso o banco não esteja criado.
 >
 >
