@@ -1,5 +1,9 @@
 ﻿using FluentValidation;
+using InfoDengue.Dominio.Contratos.Servicos.Municipio;
+using InfoDengue.Dominio.Contratos.Servicos.Relatorio;
 using InfoDengue.Dominio.Contratos.Servicos.Solicitante;
+using InfoDengue.Dominio.Servicos.Municipio;
+using InfoDengue.Dominio.Servicos.Relatorio;
 using InfoDengue.Dominio.Servicos.Solicitante;
 using InfoDengue.Dominio.Validadores;
 using Microsoft.Extensions.DependencyInjection;
@@ -13,7 +17,10 @@ public static class DominioDependencyConfig
         services.AddScoped<IServicoCadastroSolicitante, ServicoCadastroSolicitante>();
         services.AddScoped<IServicoBuscaSolicitantePorId, ServicoBuscaSolicitantePorId>();
         services.AddScoped<IServicoBuscaSolicitantePorCpf, ServicoBuscaSolicitantePorCpf>();
-
+        services.AddScoped<IServicoBuscaMunicipioPorNome, ServicoBuscaMunicipioPorNome>();
+        services.AddScoped<IServicoCadastroRelatorio, ServicoCadastroRelatorio>();
+        
         services.AddValidatorsFromAssemblyContaining<SolicitanteValidador>();
+        services.AddValidatorsFromAssemblyContaining<RelatorioValidador>();
     }
 }

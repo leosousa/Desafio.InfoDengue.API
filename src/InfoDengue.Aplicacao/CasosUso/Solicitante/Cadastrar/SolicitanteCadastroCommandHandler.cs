@@ -46,7 +46,7 @@ public class SolicitanteCadastroCommandHandler : ServicoAplicacao,
         result.AddResultadoAcao(_servicoCadastroUsuario.ResultadoAcao);
         result.AddNotifications(_servicoCadastroUsuario.Notifications);
 
-        if (_servicoCadastroUsuario.ResultadoAcao != Dominio.Enumeracoes.EResultadoAcaoServico.Suceso)
+        if (_servicoCadastroUsuario.ResultadoAcao != Dominio.Enumeracoes.EResultadoAcaoServico.Sucesso)
         {
             return await Task.FromResult(result);
         }

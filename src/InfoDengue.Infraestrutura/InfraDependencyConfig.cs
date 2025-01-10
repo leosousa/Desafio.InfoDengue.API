@@ -16,5 +16,7 @@ public static class InfraDependencyConfig
         );
 
         services.AddScoped<IRepositorioSolicitante, RepositorioSolicitante>();
+        services.AddScoped<IRepositorioMunicipio, RepositorioMunicipio>();
+        services.AddScoped<IRepositorioRelatorio, RepositorioRelatorio>();
     }
 }

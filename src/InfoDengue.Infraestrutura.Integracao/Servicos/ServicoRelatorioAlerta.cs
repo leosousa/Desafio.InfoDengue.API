@@ -8,12 +8,12 @@ public class ServicoRelatorioAlerta : IServicoRelatorioAlerta
 {
     private readonly string _urlBase = "https://info.dengue.mat.br/api";
 
-    public async Task<RelatorioAlerta> ObterRelatorio(string municipio, int codigoIbge, string arbovirose, int semanaInicio, int semanaFim, int anoInicio, int anoFim)
+    public async Task<RelatorioAlerta> ObterRelatorio(int codigoIbge, string arbovirose, int semanaInicio, int semanaFim, int anoInicio, int anoFim)
     {
         var servicoApiAlertaDengue = RestService.For<IServicoApiAlertaDengue>(_urlBase);
 
         var relatorio = await servicoApiAlertaDengue.GetRelatorioAlertaAsync(codigoIbge, arbovirose, format: "json", semanaInicio, semanaFim, anoInicio, anoFim);
 
-        return relatorio;
+        return await Task.FromResult(relatorio);
     }
 }

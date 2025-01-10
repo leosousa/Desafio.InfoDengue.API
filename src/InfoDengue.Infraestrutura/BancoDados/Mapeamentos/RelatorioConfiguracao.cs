@@ -25,9 +25,10 @@ public class RelatorioConfiguracao : IEntityTypeConfiguration<Relatorio>
            .IsRequired();
 
         builder
-            .HasOne(propriedade => propriedade.Arbovirose)
-            .WithMany()
-            .HasForeignKey(e => e.IdArbovirose);
+            .Property(propriedade => propriedade.Arbovirose)
+            .IsRequired()
+            .HasColumnType("varchar")
+            .HasMaxLength(Relatorio.ARBOVIROSE_MAXIMO_CARACTERES);
 
         builder
             .HasOne(propriedade => propriedade.Municipio)

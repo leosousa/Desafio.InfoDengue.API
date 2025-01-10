@@ -19,7 +19,7 @@ public enum EResultadoAcaoServico
     NaoEncontrado,
 
     // Sinaliza Success (200)
-    Suceso,
+    Sucesso,
 
     // Sinaliza InternalServerError (500)
     Erro

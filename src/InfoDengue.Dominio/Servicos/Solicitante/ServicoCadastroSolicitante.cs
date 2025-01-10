@@ -48,7 +48,7 @@ public class ServicoCadastroSolicitante : ServicoDominio, IServicoCadastroSolici
             return await Task.FromResult<Entidades.Solicitante?>(null);
         }
 
-        AddResultadoAcao(Enumeracoes.EResultadoAcaoServico.Suceso);
+        AddResultadoAcao(Enumeracoes.EResultadoAcaoServico.Sucesso);
 
         return await Task.FromResult(usuarioCadastrado);
     }

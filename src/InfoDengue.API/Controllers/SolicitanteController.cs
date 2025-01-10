@@ -37,7 +37,7 @@ public class SolicitanteController : ApiControllerBase
             EResultadoAcaoServico.NaoEncontrado => NotFound(assuntoCadastrado),
             EResultadoAcaoServico.ParametrosInvalidos => BadRequest(assuntoCadastrado),
             EResultadoAcaoServico.Erro => StatusCode(StatusCodes.Status500InternalServerError),
-            EResultadoAcaoServico.Suceso => CreatedAtAction("BuscarPorId",
+            EResultadoAcaoServico.Sucesso => CreatedAtAction("BuscarPorId",
                 new { id = assuntoCadastrado.Data.Id },
                 assuntoCadastrado.Data
             ),
