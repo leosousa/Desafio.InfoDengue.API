@@ -1,8 +1,11 @@
 using InfoDengue.API.Config;
 using InfoDengue.Infraestrutura.BancoDados;
+using InfoDengue.Infraestrutura.Integracao.Configuracoes;
 using System.Reflection;
 
 var builder = WebApplication.CreateBuilder(args);
+
+builder.Services.Configure<AlertaDengueAPI>(builder.Configuration.GetSection("AlertaDengueAPI"));
 
 builder.Services.AdicionarDependenciasAplicacao();
 
