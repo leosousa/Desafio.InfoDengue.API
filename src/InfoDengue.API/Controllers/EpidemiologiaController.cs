@@ -1,4 +1,5 @@
-﻿using InfoDengue.Aplicacao.CasosUso.Epidemiologia.GerarRelatorioEpidemiologicoPorMunicipio.BuscarRelatorioPorMunicipio;
+﻿using InfoDengue.Aplicacao.CasosUso.Epidemiologia.GerarRelatorioEpidemiologicoPorCodigoIbge;
+using InfoDengue.Aplicacao.CasosUso.Epidemiologia.GerarRelatorioEpidemiologicoPorMunicipio.BuscarRelatorioPorMunicipio;
 using InfoDengue.Dominio.Enumeracoes;
 using InfoDengue.Infraestrutura.Integracao.Contratos;
 using MediatR;
@@ -24,9 +25,35 @@ public class EpidemiologiaController : ApiControllerBase
     /// </summary>
     /// <param name="filtros">Filtros para geração do relatório</param>
     /// <returns>Lista com dados epidemiológicos encontrados</returns>
-    [HttpPost("municipios")]
-    public async Task<IActionResult> GerarRelatorioPorMunicipio(
+    [HttpPost("municipios/nome")]
+    public async Task<IActionResult> GerarRelatorioPorNomeMunicipio(
         [FromBody] RelatorioEpidemiologicoPorMunicipioCommand filtros)
+    {
+        var result = await _mediator.Send(filtros);
+
+        if (result is null)
+        {
+            return StatusCode(StatusCodes.Status500InternalServerError);
+        }
+
+        return result.ResultadoAcao switch
+        {
+            EResultadoAcaoServico.NaoEncontrado => NotFound(result),
+            EResultadoAcaoServico.ParametrosInvalidos => BadRequest(result),
+            EResultadoAcaoServico.Erro => StatusCode(StatusCodes.Status500InternalServerError),
+            EResultadoAcaoServico.Sucesso => Ok(result),
+            _ => throw new NotImplementedException()
+        };
+    }
+
+    /// <summary>
+    /// Gera relatório de dados epidemiológicos a partir dos filtros informados na API do Alerta Dengue
+    /// </summary>
+    /// <param name="filtros">Filtros para geração do relatório</param>
+    /// <returns>Lista com dados epidemiológicos encontrados</returns>
+    [HttpPost("municipios/codigo")]
+    public async Task<IActionResult> GerarRelatorioPorCodigoIbge(
+        [FromBody] RelatorioEpidemiologicoPorCodigoIbgeCommand filtros)
     {
         var result = await _mediator.Send(filtros);
 

@@ -15,4 +15,9 @@ public class RepositorioMunicipio : Repositorio<Municipio>, IRepositorioMunicipi
     {
         return await _dbSet.FirstOrDefaultAsync(entity => entity.Nome == nome);
     }
+
+    public async Task<Municipio?> BuscarPorCodigoAsync(int codigo)
+    {
+        return await _dbSet.FirstOrDefaultAsync(entity => entity.CodigoIbge == codigo);
+    }
 }

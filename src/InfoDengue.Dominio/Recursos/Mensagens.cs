@@ -31,4 +31,6 @@ public class Mensagens
     public const string SemanaInicioECampoObrigatorio = "Semana início é campo obrigatório";
     public const string SemanaTerminoECampoObrigatorio = "Semana término é campo obrigatório";
     public const string ArboviroseECampoObrigatorio = "Arbovirose é campo obrigatório";
+    public const string CodigoIbgeNaoInformado = "Código IBGE não informado";
+    public const string CodigoIbgeNaoEncontrado = "Código IBGE não encontrado";
 }
